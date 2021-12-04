@@ -1,22 +1,23 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
 
-import { Counter } from './features/counter/Counter'
-import './App.css'
-import cityApi from './api/cityApi'
+import { NotFound, PrivateRoute } from './components/Common'
+import { AdminLayout } from './components/Layout'
+import LoginPage from './features/auth/pages/LoginPage'
 
 function App() {
-  useEffect(() => {
-    async function fetchCity() {
-      const res = await cityApi.getAll()
-      console.log(res)
-    }
-    fetchCity()
-  }, [])
-
   return (
-    <div className="App">
-      <Counter />
-    </div>
+    <Switch>
+      <Route path="/login">
+        <LoginPage />
+      </Route>
+      <PrivateRoute path="/admin">
+        <AdminLayout />
+      </PrivateRoute>
+      <Route>
+        <NotFound />
+      </Route>
+    </Switch>
   )
 }
 
